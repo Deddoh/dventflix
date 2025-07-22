@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import Search from './components/Search'
+import Spinner from './components/Spinner.jsx'
+import MovieCard from './components/MovieCard.jsx'
 
 const API_BASE_URL = 'https://api.themoviedb.org/3';
 const API_KEY =   import.meta.env.VITE_TMDB_API_KEY;
@@ -19,7 +21,7 @@ const App = ()=>{
     const fetchMovies = async ()=>{
         setIsLoading(true)
         setErrorMessage('')
-        try{
+        try {
             const endpoint = `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`
             const response = await fetch(endpoint, API_OPTIONS)
 
@@ -61,11 +63,11 @@ return (
             </header> 
 
             <section className='allmovie'>
-                <h2>All Movies</h2>
-                {isLoading ? <p className='text-white'>Loading...</p> : errorMessage ? <p className='text-red-500'>{errorMessage}</p> :
+                <h2 className='mt-[40px]'>All Movies</h2>
+                {isLoading ? (<Spinner/>) : errorMessage ? <p className='text-red-500'>{errorMessage}</p> :
                 <ul>
-                    {movieList.map((movie, key) =>(
-                        <p key={movie} className='text-white'>{movie.title}</p>
+                    {movieList.map((movie) =>(
+                        <MovieCard key={movie.id} movie={movie}/>
                     ))}</ul>}
                 {errorMessage && <p className='text-red-500'>{errorMessage}</p>}
             </section>
